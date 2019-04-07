@@ -10,20 +10,27 @@ namespace BlazorMVVMSample.Client.Models
 {
     public interface IFetchDataModel
     {
-        Task<WeatherForecast[]> RetrieveForecastsAsync();
+        Task RetrieveForecastsAsync();
+        IWeatherForecast[] WeatherForecasts { get; }
     }
 
     public class FetchDataModel : IFetchDataModel
     {
         private HttpClient _http;
+        private IWeatherForecast[] _weatherForecasts;  
         public FetchDataModel(HttpClient http)
         {
-            _http = http;
+            _http = http;           
         }
 
-        public async Task<WeatherForecast[]> RetrieveForecastsAsync()
+        public IWeatherForecast[] WeatherForecasts { get => _weatherForecasts; private set => _weatherForecasts = value; }
+
+        public async Task RetrieveForecastsAsync()
         {
-            return await _http.GetJsonAsync<WeatherForecast[]>("api/SampleData/WeatherForecasts");
+            Console.WriteLine("FetchDataModel Retrieving Forecasts");
+            _weatherForecasts = await _http.GetJsonAsync<WeatherForecast[]>("api/SampleData/WeatherForecasts");
+            Console.WriteLine("FetchDataModel Forecasts Retrieved");
         }
+
     }
 }
