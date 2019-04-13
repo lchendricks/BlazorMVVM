@@ -8,55 +8,94 @@ using System.Threading.Tasks;
 namespace BlazorMVVMSample.Client.ViewModels
 {
     public interface IFetchDataViewModel
-    {
-        IWeatherForecast[] WeatherForecasts { get; set; }
-        string DisplayTemperatureScaleShort { get; }
+    {             
         string DisplayOtherTemperatureScaleLong { get; }
+        IBasicForecastViewModel BasicForecastViewModel { get; }
+        string DisplayPremiumToggleMessage { get; }
 
-        int DisplayTemperature(int temperature);
         Task RetrieveForecastsAsync();
+        Task TogglePremiumMembership();
         void ToggleTemperatureScale();
     }
 
     public class FetchDataViewModel : IFetchDataViewModel
     {
-        private IWeatherForecast[] _weatherForecasts;
+        
         private IFetchDataModel _fetchDataModel;
         private bool _displayFahrenheit;
+        private IBasicForecastViewModel _basicForecastViewModel;
+        private bool _isPremiumMember;
+        private bool _isDailyForecast;
 
-        public IWeatherForecast[] WeatherForecasts { get => _weatherForecasts; set => _weatherForecasts = value; }
+        public IBasicForecastViewModel BasicForecastViewModel { get => _basicForecastViewModel; private set => _basicForecastViewModel = value; }
 
-        public FetchDataViewModel(IFetchDataModel fetchDataModel)
+        public FetchDataViewModel(IFetchDataModel fetchDataModel, IBasicForecastViewModel basicForecastViewModel )
         {
             Console.WriteLine("FetchDataViewModel Constructor Executing");
             _fetchDataModel = fetchDataModel;
+            _basicForecastViewModel = basicForecastViewModel;
             _displayFahrenheit = true;
+            _isPremiumMember = false;
+            basicForecastViewModel.ToggleForecastDelegate = ToggleForecast;
+            _isDailyForecast = true;
         }
 
         public async Task RetrieveForecastsAsync()
-        {
-            Console.WriteLine("FetchDataViewModel Retrieving Forecasts");
-            await _fetchDataModel.RetrieveForecastsAsync();
+        {                             
             List<IWeatherForecast> newForecasts = new List<IWeatherForecast>();
+            if (_isPremiumMember)
+            {
+                await PopulateEnhancedForecastData(newForecasts);
+            }
+            else
+            {
+                await PopulateStandardForecastData(newForecasts);
+            }
+            _basicForecastViewModel.WeatherForecasts = newForecasts.ToArray();       
+        }
+
+        private async Task PopulateStandardForecastData(List<IWeatherForecast> newForecasts)
+        {
+            await _fetchDataModel.RetrieveForecastsAsync();
             foreach (IWeatherForecast forecast in _fetchDataModel.WeatherForecasts)
             {
                 IWeatherForecast newForecast = new WeatherForecast();
                 newForecast.Date = forecast.Date;
                 newForecast.Summary = forecast.Summary;
                 newForecast.TemperatureC = forecast.TemperatureC;
-                newForecasts.Add(forecast);
+                newForecasts.Add(newForecast);
             }
-            _weatherForecasts = newForecasts.ToArray();
-
-            Console.WriteLine("FetchDataViewModel Forecasts Retrieved");
         }
 
-
-        public string DisplayTemperatureScaleShort
+        private async Task PopulateEnhancedForecastData(List<IWeatherForecast> newForecasts)
         {
-            get
+            List<Period> forecasts = new List<Period>();
+
+            if (_isDailyForecast)
             {
-                return _displayFahrenheit ? "F" : "C";
+                await _fetchDataModel.RetrieveRealForecastAsync();
+                forecasts.AddRange(_fetchDataModel.RealWeatherForecast.properties.periods);
+            }
+            else
+            {
+                await _fetchDataModel.RetrieveHourlyForecastAsync();
+                forecasts.AddRange(_fetchDataModel.HourlyWeatherForecast.properties.periods);
+            }
+            foreach (Period forecast in forecasts)
+            {
+                IWeatherForecast newForecast = new WeatherForecast();
+                newForecast.Date = forecast.startTime;
+                if (_isDailyForecast)
+                {
+                    newForecast.Summary = forecast.name + " - ";
+                }
+                else
+                {
+                    newForecast.Summary = "";
+                }
+                newForecast.Summary = newForecast.Summary + forecast.shortForecast;
+                newForecast.TemperatureC = (int)((forecast.temperature - 32) * 5 / 9);
+                newForecasts.Add(newForecast);
             }
         }
 
@@ -67,15 +106,39 @@ namespace BlazorMVVMSample.Client.ViewModels
                 return !_displayFahrenheit ? "Fahrenheit" : "Celsius";
             }
         }
-
-        public int DisplayTemperature(int temperature)
-        {
-            return _displayFahrenheit ? 32 + (int)(temperature / 0.5556) : temperature;
-        }
-
+       
         public void ToggleTemperatureScale()
         {
             _displayFahrenheit = !_displayFahrenheit;
+            _basicForecastViewModel.ToggleTemperatureScale();            
         }
+
+        public async Task TogglePremiumMembership()
+        {
+            _isPremiumMember = !_isPremiumMember;
+            await RetrieveForecastsAsync();
+        }
+
+        private async Task ToggleForecast(DateTime selectedDate)
+        {
+            if (_isPremiumMember)
+            {
+                _isDailyForecast = !_isDailyForecast;
+                List<IWeatherForecast> newForecasts = new List<IWeatherForecast>();
+                await PopulateEnhancedForecastData(newForecasts);
+                if (_isDailyForecast)
+                {
+                    _basicForecastViewModel.WeatherForecasts = newForecasts.ToArray();
+                }
+                else
+                {
+                    _basicForecastViewModel.WeatherForecasts = newForecasts
+                        .Where(nf => nf.Date.ToShortDateString() == selectedDate.ToShortDateString())
+                        .ToArray();
+                }
+            }
+        }
+
+        public string DisplayPremiumToggleMessage => _isPremiumMember ? "Change to Basic" : "Change to Premium";
     }
 }

@@ -11,6 +11,7 @@ namespace BlazorMVVMSample.Client
         {
             services.AddTransient<IFetchDataViewModel, FetchDataViewModel>();
             services.AddTransient<IFetchDataModel, FetchDataModel>();
+            services.AddTransient<IBasicForecastViewModel, BasicForecastViewModel>();
         }
 
         public void Configure(IComponentsApplicationBuilder app)
