@@ -4,7 +4,14 @@ using System.Text;
 
 namespace BlazorMVVMSample.Shared
 {
-    public class WeatherDotGovForecast
+    public interface IWeatherDotGovForecast
+    {
+        Geometry geometry { get; set; }
+        Properties properties { get; set; }
+        string type { get; set; }
+    }
+
+    public class WeatherDotGovForecast : IWeatherDotGovForecast
     {
         //public List<object> __invalid_name__ { get; set; }
         public string type { get; set; }
