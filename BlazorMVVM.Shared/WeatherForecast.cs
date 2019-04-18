@@ -2,16 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BlazorMVVMSample.Shared
+namespace BlazorMVVM.Shared
 {
-    public interface IWeatherForecast
-    {
-        DateTime Date { get; set; }
-        string Summary { get; set; }
-        int TemperatureC { get; set; }
-    }
-
-    public class WeatherForecast : IWeatherForecast
+    public class WeatherForecast
     {
         public DateTime Date { get; set; }
 

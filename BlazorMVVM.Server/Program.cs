@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 
-namespace BlazorMVVMSample.Server
+namespace BlazorMVVM.Server
 {
     public class Program
     {

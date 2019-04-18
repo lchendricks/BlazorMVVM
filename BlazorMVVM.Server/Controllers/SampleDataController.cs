@@ -1,11 +1,11 @@
-﻿using BlazorMVVMSample.Shared;
+﻿using BlazorMVVM.Shared;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BlazorMVVMSample.Server.Controllers
+namespace BlazorMVVM.Server.Controllers
 {
     [Route("api/[controller]")]
     public class SampleDataController : Controller
