@@ -1,41 +1,25 @@
 ﻿@page "/fetchdatamvvm"
-@using  BlazorMVVM.Client.ViewModels
+@using BlazorMVVM.Client.ViewModels
+@using BlazorMVVM.Client.Components
 @inject IFetchDataViewModel fetchDataViewModel
 
 <h1>Weather forecast</h1>
 <button class="btn btn-primary" onclick=@fetchDataViewModel.ToggleTemperatureScale>Display @fetchDataViewModel.DisplayOtherTemperatureScaleLong</button>
+<button class="btn btn-primary" onclick=@(async () => await fetchDataViewModel.TogglePremiumMembership())>@fetchDataViewModel.DisplayPremiumToggleMessage</button>
 <p>This component demonstrates fetching data from the server.</p>
 
-@if (fetchDataViewModel.WeatherForecasts == null)
+@if (fetchDataViewModel.BasicForecastViewModel.WeatherForecasts == null)
 {
     <p><em>Loading...</em></p>
 }
 else
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Temp. (@fetchDataViewModel.DisplayTemperatureScaleShort)</th>
-                <th>Summary</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var forecast in fetchDataViewModel.WeatherForecasts)
-            {
-                <tr>
-                    <td>@forecast.Date.ToShortDateString()</td>
-                    <td>@fetchDataViewModel.DisplayTemperature(@forecast.TemperatureC)</td>          
-                    <td>@forecast.Summary</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <BasicForecast ViewModel="@fetchDataViewModel.BasicForecastViewModel" />
 }
 
 @functions {
     protected override async Task OnInitAsync()
     {
-        await fetchDataViewModel.RetrieveForecastsAsync();
+        await fetchDataViewModel.RetrieveForecastsAsync();       
     }
 }
