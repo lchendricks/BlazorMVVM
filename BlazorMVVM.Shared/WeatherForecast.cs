@@ -4,7 +4,14 @@ using System.Text;
 
 namespace BlazorMVVM.Shared
 {
-    public class WeatherForecast
+    public interface IWeatherForecast
+    {
+        DateTime Date { get; set; }
+        string Summary { get; set; }
+        int TemperatureC { get; set; }
+    }
+
+    public class WeatherForecast : IWeatherForecast
     {
         public DateTime Date { get; set; }
 

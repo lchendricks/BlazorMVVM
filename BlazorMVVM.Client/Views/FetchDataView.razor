@@ -3,6 +3,7 @@
 @inject IFetchDataViewModel fetchDataViewModel
 
 <h1>Weather forecast</h1>
+<button class="btn btn-primary" onclick=@fetchDataViewModel.ToggleTemperatureScale>Display @fetchDataViewModel.DisplayOtherTemperatureScaleLong</button>
 <p>This component demonstrates fetching data from the server.</p>
 
 @if (fetchDataViewModel.WeatherForecasts == null)
@@ -15,8 +16,7 @@ else
         <thead>
             <tr>
                 <th>Date</th>
-                <th>Temp. (C)</th>
-                <th>Temp. (F)</th>
+                <th>Temp. (@fetchDataViewModel.DisplayTemperatureScaleShort)</th>
                 <th>Summary</th>
             </tr>
         </thead>
@@ -25,8 +25,7 @@ else
             {
                 <tr>
                     <td>@forecast.Date.ToShortDateString()</td>
-                    <td>@forecast.TemperatureC</td>
-                    <td>@forecast.TemperatureF</td>
+                    <td>@fetchDataViewModel.DisplayTemperature(@forecast.TemperatureC)</td>          
                     <td>@forecast.Summary</td>
                 </tr>
             }

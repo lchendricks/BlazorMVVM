@@ -1,31 +1,72 @@
 ﻿using BlazorMVVM.Client.Models;
 using BlazorMVVM.Shared;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace BlazorMVVM.Client.ViewModels
 {
     public interface IFetchDataViewModel
     {
-        WeatherForecast[] WeatherForecasts { get; set; }
+        IWeatherForecast[] WeatherForecasts { get; set; }
+        string DisplayTemperatureScaleShort { get; }
+        string DisplayOtherTemperatureScaleLong { get; }
+
+        int DisplayTemperature(int temperature);
         Task RetrieveForecastsAsync();
+        void ToggleTemperatureScale();
     }
     public class FetchDataViewModel : IFetchDataViewModel
     {
-        private WeatherForecast[] _weatherForecasts;
+        private IWeatherForecast[] _weatherForecasts;
         private IFetchDataModel _fetchDataModel;
-        public WeatherForecast[] WeatherForecasts { get => _weatherForecasts; set => _weatherForecasts = value; }
+        private bool _displayFahrenheit;
+        public IWeatherForecast[] WeatherForecasts { get => _weatherForecasts; set => _weatherForecasts = value; }
+        public string DisplayTemperatureScaleShort
+        {
+            get
+            {
+                return _displayFahrenheit ? "F" : "C";
+            }
+        }
+        public string DisplayOtherTemperatureScaleLong
+        {
+            get
+            {
+                return !_displayFahrenheit ? "Fahrenheit" : "Celsius";
+            }
+        }
 
         public FetchDataViewModel(IFetchDataModel fetchDataModel)
         {
             Console.WriteLine("FetchDataViewModel Constructor Executing");
             _fetchDataModel = fetchDataModel;
+            _displayFahrenheit = true;
         }
 
         public async Task RetrieveForecastsAsync()
         {
-            _weatherForecasts = await _fetchDataModel.RetrieveForecastsAsync();
+            await _fetchDataModel.RetrieveForecastsAsync();
+            List<IWeatherForecast> newForecasts = new List<IWeatherForecast>();
+            foreach (IWeatherForecast forecast in _fetchDataModel.WeatherForecasts)
+            {
+                IWeatherForecast newForecast = new WeatherForecast();
+                newForecast.Date = forecast.Date;
+                newForecast.Summary = forecast.Summary;
+                newForecast.TemperatureC = forecast.TemperatureC;
+                newForecasts.Add(forecast);
+            }
+            _weatherForecasts = newForecasts.ToArray();
             Console.WriteLine("FetchDataViewModel Forecasts Retrieved");
+        }
+
+        public int DisplayTemperature(int temperature)
+        {
+            return _displayFahrenheit ? 32 + (int)(temperature / 0.5556) : temperature;
+        }
+        public void ToggleTemperatureScale()
+        {
+            _displayFahrenheit = !_displayFahrenheit;
         }
     }
 }
