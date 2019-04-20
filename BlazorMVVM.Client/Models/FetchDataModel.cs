@@ -1,5 +1,7 @@
 ﻿using BlazorMVVM.Shared;
 using Microsoft.AspNetCore.Components;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -8,38 +10,57 @@ namespace BlazorMVVM.Client.Models
     public interface IFetchDataModel
     {
         IWeatherForecast[] WeatherForecasts { get; }
-        WeatherDotGovForecast RealWeatherForecast { get; }
-        WeatherDotGovForecast HourlyWeatherForecast { get; }
+        IWeatherDotGovForecast RealWeatherForecast { get; }
+        IWeatherDotGovForecast HourlyWeatherForecast { get; }
 
         Task RetrieveForecastsAsync();
         Task RetrieveHourlyForecastAsync();
         Task RetrieveRealForecastAsync();
     }
-    public class FetchDataModel : IFetchDataModel
+    public class FetchData_Model : IFetchDataModel
     {
         private HttpClient _http;
         private IWeatherForecast[] _weatherForecasts;
-        private WeatherDotGovForecast _realWeatherForecast;
-        private WeatherDotGovForecast _hourlyWeatherForecast;
+        private IWeatherDotGovForecast _realWeatherForecast;
+        private IWeatherDotGovForecast _hourlyWeatherForecast;
+        private IFullForecastModel _dailyForecast;
+        private IFullForecastModel _hourlyForecast;
+        private IBasicForecastModel _basicForecast;
         public IWeatherForecast[] WeatherForecasts { get => _weatherForecasts; private set => _weatherForecasts = value; }
-        public WeatherDotGovForecast RealWeatherForecast { get => _realWeatherForecast; private set => _realWeatherForecast = value; }
-        public WeatherDotGovForecast HourlyWeatherForecast { get => _hourlyWeatherForecast; private set => _hourlyWeatherForecast = value; }
-        public FetchDataModel(HttpClient http)
+        public IWeatherDotGovForecast RealWeatherForecast { get => _realWeatherForecast; private set => _realWeatherForecast = value; }
+        public IWeatherDotGovForecast HourlyWeatherForecast { get => _hourlyWeatherForecast; private set => _hourlyWeatherForecast = value; }
+        public FetchData_Model(HttpClient http, IEnumerable<IFullForecastModel> fullForecasts, IBasicForecastModel basicForecast)
         {
             _http = http;
+            _dailyForecast = fullForecasts
+                 .Where(f => f.Supports == supports.daily)
+                 .First();
+            _hourlyForecast = fullForecasts
+                .Where(f => f.Supports == supports.hourly)
+                .First();
+            _basicForecast = basicForecast;
         }
         public async Task RetrieveForecastsAsync()
         {
-            _weatherForecasts = await _http.GetJsonAsync<WeatherForecast[]>("api/SampleData/WeatherForecasts");
+            if (_weatherForecasts == null)
+            {
+                _weatherForecasts = await _basicForecast.RetrieveBasicForecast();
+            }
         }
         public async Task RetrieveRealForecastAsync()
         {
-            _realWeatherForecast = await _http.GetJsonAsync<WeatherDotGovForecast>
-              ("https://api.weather.gov/gridpoints/ALY/59,14/forecast");
+            if (_realWeatherForecast == null)
+            {
+                _realWeatherForecast = await _dailyForecast.RetrieveFullForecast();
+            }
         }
         public async Task RetrieveHourlyForecastAsync()
         {
-            _hourlyWeatherForecast = await _http.GetJsonAsync<WeatherDotGovForecast>("https://api.weather.gov/gridpoints/ALY/59,14/forecast/hourly");
+            if (_hourlyWeatherForecast == null)
+            {
+                _hourlyWeatherForecast = await
+                _hourlyForecast.RetrieveFullForecast();
+            }
         }
     }
 }
