@@ -13,6 +13,7 @@ namespace BlazorMVVM.Client
         {
             services.AddTransient<IFetchDataViewModel, FetchDataViewModel>();
             services.AddTransient<IBasicForecastViewModel, BasicForecastViewModel>();
+            services.AddTransient<IShoppingCartViewModel, ShoppingCartViewModel>();
 
             var assembly = AppDomain.CurrentDomain.GetAssemblies()
                .Where(a => a
