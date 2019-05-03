@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Components;
 using BlazorMVVM.Client.ViewModels;
 using BlazorMVVM.Shared;
+using BlazorMVVM.Client.Components;
+using System;
 
 namespace BlazorMVVM.Client.Views
 {
@@ -11,10 +13,25 @@ namespace BlazorMVVM.Client.Views
 
         protected override void OnInit()
         {
-            ViewModel.AddItemToCart("Intel Core i9-7980XE Skylake X 18", 1, 2049.99m);
-            ViewModel.AddItemToCart("ASUS ROG Strix X99-E", 1, 299.99m);
-            ViewModel.AddItemToCart("EVGA GeForce RTX 2080 Ti", 1, 1069.99m);
+            ViewModel.AddItemToCart(1);
+            ViewModel.AddItemToCart(2);
+            ViewModel.AddItemToCart(3);
+            ViewModel.UpdateCart();
 
+            ViewModel.StateHasChangedDelegate = StateHasChanged;
+        }
+
+        private void DoNothing()
+        { }
+        //protected override void StateHasChanged()
+        //{
+
+        //}
+
+        protected override void OnAfterRender()
+        {
+            base.OnAfterRender();
+            Console.WriteLine("Shopping Cart View OnAfterRender");       
         }
 
     }

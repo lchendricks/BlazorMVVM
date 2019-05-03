@@ -13,7 +13,7 @@ namespace BlazorMVVM.Client
         {
             services.AddTransient<IFetchDataViewModel, FetchDataViewModel>();
             services.AddTransient<IBasicForecastViewModel, BasicForecastViewModel>();
-            services.AddTransient<IShoppingCartViewModel, ShoppingCartViewModel>();
+            services.AddTransient<IShoppingCartViewModel, ShoppingCartViewModel>();     
 
             var assembly = AppDomain.CurrentDomain.GetAssemblies()
                .Where(a => a
@@ -21,6 +21,8 @@ namespace BlazorMVVM.Client
                .First();
             var classes = assembly.ExportedTypes
                .Where(a => a.FullName.Contains("_Model"));
+            classes = classes.Union(assembly.ExportedTypes
+               .Where(a => a.FullName.Contains("_ViewModel")));
             foreach (Type t in classes)
             {
                 foreach (Type i in t.GetInterfaces())

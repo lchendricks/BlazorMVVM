@@ -1,0 +1,55 @@
+﻿@using BlazorMVVM.Client.ViewModels
+
+    <button class="btn btn-primary" onclick="@ViewModel.AddItemsButtonClickDelegate.Invoke">Display/Hide Catalog</button>
+
+@if (ViewModel.CatalogItems.Count > 0)
+{
+    <table class="table table-bordered table-hover">
+        <thead class="thead-light">
+            <tr>
+                <th>Item</th>
+                <th>Quantity</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in ViewModel.CatalogItems)
+            {
+                <tr onclick=@(() => ViewModel.SelectItem(item.Key))>
+                    <td>@item.Value.Name</td>
+                    <td>@item.Value.Quantity</td>
+                    <td>@item.Value.Price.DisplayPrice()</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@if (ViewModel.SelectedItem.Key != 0)
+{
+    <table class="table">
+        <tbody>
+            <tr>
+                <td>@ViewModel.SelectedItem.Value.Name</td>
+                <td><button class="btn bg-primary" onclick=@(() => ViewModel.AddSelectedItemToCartDelegate(ViewModel.SelectedItem.Key))>Add to Cart</button></td>
+                <td><button class="btn bg-primary" onclick="@ViewModel.ClickCancel">Cancel</button></td>
+            </tr>
+        </tbody>
+    </table>
+}
+
+@functions {
+    [Parameter]
+    private IInventoryCatalog_ViewModel ViewModel { get; set; }
+    
+    protected override void OnInit()
+    {
+   
+    }
+
+    protected override void OnAfterRender()
+        {
+            base.OnAfterRender();
+            Console.WriteLine("Inventory Catalog View OnAfterRender");
+                 
+        }
+}

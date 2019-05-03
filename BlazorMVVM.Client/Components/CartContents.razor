@@ -1,0 +1,50 @@
+﻿@using BlazorMVVM.Client.ViewModels
+
+@if (@ViewModel.Cart != null)
+{
+    <table class="table table-bordered">
+        <thead class="thead-light">
+            <tr>
+                <th>Item</th>
+                <th>Quantity</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in ViewModel.Cart)
+            {
+                <tr>
+                    <td>@item.Value.Name</td>
+                    <td>@item.Value.Quantity</td>
+                    <td>@item.Value.Price.DisplayPrice()</td>
+                </tr>
+            }
+        </tbody>
+        <tfoot class="thead-light">
+            <tr>
+                <th>Total</th>
+                <th>@ViewModel.ItemCount</th>
+                <th>@ViewModel.TotalPrice.DisplayPrice()</th>
+            </tr>
+        </tfoot>
+    </table>
+}
+
+
+@functions {
+    [Parameter]
+    private IShoppingCartViewModel ViewModel { get; set; }
+
+    protected override void OnInit()
+    {
+        //base.OnInit();
+        //ViewModel.PropertyChanged += (o, e) => StateHasChanged();
+     
+    }
+
+    protected override void OnAfterRender()
+    {
+        base.OnAfterRender();
+        Console.WriteLine("CartContents View OnAfterRender");       
+    }
+}

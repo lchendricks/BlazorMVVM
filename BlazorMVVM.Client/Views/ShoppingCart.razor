@@ -3,29 +3,6 @@
 
 <h1>Shopping Cart</h1>
 
-<table class="table table-bordered">
-    <thead class="thead-light">
-        <tr>
-            <th>Item</th>
-            <th>Quantity</th>
-            <th>Price</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in ViewModel.Cart)
-        {
-            <tr>
-                <td>@item.Name</td>
-                <td>@item.Quantity</td>
-                <td>@ViewModel.DisplayPrice(@item.Price)</td>
-            </tr>
-        }
-    </tbody>
-    <tfoot class="thead-light">
-        <tr>
-            <th>@ViewModel.DisplayTotal().Name</th>
-            <th>@ViewModel.DisplayTotal().Quantity</th>
-            <th>@ViewModel.DisplayPrice(@ViewModel.DisplayTotal().Price)</th>
-        </tr>
-    </tfoot>
-</table>
+<BlazorMVVM.Client.Components.InventoryCatalog ViewModel="@ViewModel.InventoryCatalogViewModel" />
+
+<BlazorMVVM.Client.Components.CartContents ViewModel="@ViewModel" />
