@@ -9,8 +9,7 @@ namespace BlazorMVVM.Client.Models
     {
         Func<string> EvaluateRiskScore { get; set; }
 
-        void CalculateRiskScore();
-        int EvaluateHdlCholesterol();
+        void CalculateRiskScore();      
         void SetAge(int age);
         void SetBloodPressureTreated(bool isTreated);
         void SetGender(string gender);

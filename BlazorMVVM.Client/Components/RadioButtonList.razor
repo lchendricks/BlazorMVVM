@@ -1,17 +1,16 @@
-﻿
-    <div>
-        @foreach (string s in choices)
+﻿    <div>
+        @foreach (string choice in choices)
         {
-            if (s == currentChoice)
+            if (choice == currentChoice)
             {
-                <div class="radio" onclick=@(()=>MakeChoice.InvokeAsync(s))>
-                    <label><input type="radio" name="@radioName" checked>@s</label>
+                <div class="radio" onclick=@(()=>MakeChoice.InvokeAsync(choice))>
+                    <label><input type="radio" name="@radioName" checked>@choice</label>
                 </div>
             }
             else
             {
-                <div class="radio" onclick=@(()=>MakeChoice.InvokeAsync(s))>
-                    <label><input type="radio" name="@radioName">@s</label>
+                <div class="radio" onclick=@(()=>MakeChoice.InvokeAsync(choice))>
+                    <label><input type="radio" name="@radioName">@choice</label>
                 </div>
             }
         }
@@ -30,6 +29,4 @@
 
     [Parameter]
     EventCallback<string> MakeChoice { get; set; }
-
-
 }

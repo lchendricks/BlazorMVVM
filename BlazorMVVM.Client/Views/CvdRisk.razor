@@ -24,7 +24,7 @@
                 <h5 class="card-title">Welcome to the Framingham CVD 10 Year Risk Calculator</h5>
                 <p class="card-text">Please select your gender to start the calculator</p>
 
-                <RadioButtonList radioName="ageradio" choices="@ViewModel.GenderChoices" currentChoice="@ViewModel.Gender" MakeChoice="@ViewModel.SetGender" />
+                <RadioButtonList radioName="genderRadio" choices="@ViewModel.GenderChoices" currentChoice="@ViewModel.Gender" MakeChoice="@ViewModel.SetGender" />
 
             </div>
             <div class="card-footer">
@@ -40,7 +40,7 @@
             </div>
             <div class="card-body">
                 <h5 class="card-title">Please enter your age</h5>
-                <p class="card-text">Enter age in years between 20 and 79</p>
+                <p class="card-text">Enter age in years between 20 and 79. Use 79 for any age above 79.</p>
                 <input type="number" bind="@ViewModel.Age" onblur=@(() => ViewModel.SetAge()) />
             </div>
             <div class="card-footer">

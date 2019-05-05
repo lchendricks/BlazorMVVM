@@ -120,7 +120,7 @@ namespace BlazorMVVM.Client.ViewModels
                     break;
                 case 2:
                     PreviousButtonDisabled = false;
-                    if (_age < 20)
+                    if (_age == 0)
                     {
                         NextButtonDisabled = true;
                     }
