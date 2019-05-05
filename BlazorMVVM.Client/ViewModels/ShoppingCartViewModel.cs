@@ -16,11 +16,11 @@ namespace BlazorMVVM.Client.ViewModels
         Dictionary<int, InventoryItem> Cart { get; set; }
         int ItemCount { get; }
         decimal TotalPrice { get; }
-        IInventoryCatalog_ViewModel InventoryCatalogViewModel { get; }
-        Action StateHasChangedDelegate { get; set; }
+        IInventoryCatalog_ViewModel InventoryCatalogViewModel { get; }     
 
         void AddItemsButtonClick();
-        void AddItemToCart(int id);       
+        void AddItemToCart(int id);
+        void CheckInventoryAndAddItemToCart(int id);
         void UpdateCart();
     }
 
@@ -48,8 +48,7 @@ namespace BlazorMVVM.Client.ViewModels
         public Dictionary<int, InventoryItem> Cart { get => _contents; set => _contents = value; }
         public int ItemCount { get => _itemCount; private set => _itemCount = value; }
         public decimal TotalPrice { get => _totalPrice; private set => _totalPrice = value; }
-        public IInventoryCatalog_ViewModel InventoryCatalogViewModel { get => _inventoryCatalogViewModel; private set => _inventoryCatalogViewModel = value; }
-        public Action StateHasChangedDelegate { get; set; }
+        public IInventoryCatalog_ViewModel InventoryCatalogViewModel { get => _inventoryCatalogViewModel; private set => _inventoryCatalogViewModel = value; } 
 
         public void AddItemToCart(int id)
         {
@@ -68,8 +67,7 @@ namespace BlazorMVVM.Client.ViewModels
                 _itemCount += kvp.Value.Quantity;
                 _totalPrice += kvp.Value.Price * kvp.Value.Quantity;
             }
-            Cart = newCart;
-            StateHasChangedDelegate?.Invoke();
+            Cart = newCart;      
         }      
         
         public void AddItemsButtonClick()

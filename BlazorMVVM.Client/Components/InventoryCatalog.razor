@@ -30,7 +30,7 @@
         <tbody>
             <tr>
                 <td>@ViewModel.SelectedItem.Value.Name</td>
-                <td><button class="btn bg-primary" onclick=@(() => ViewModel.AddSelectedItemToCartDelegate(ViewModel.SelectedItem.Key))>Add to Cart</button></td>
+                <td><button class="btn bg-primary" onclick=@(() => AddSelectedItemToCart.InvokeAsync(ViewModel.SelectedItem.Key))>Add to Cart</button></td>
                 <td><button class="btn bg-primary" onclick="@ViewModel.ClickCancel">Cancel</button></td>
             </tr>
         </tbody>
@@ -40,16 +40,19 @@
 @functions {
     [Parameter]
     private IInventoryCatalog_ViewModel ViewModel { get; set; }
-    
+
+    [Parameter]
+    private EventCallback<int> AddSelectedItemToCart { get; set; }
+
     protected override void OnInit()
     {
-   
+
     }
 
     protected override void OnAfterRender()
-        {
-            base.OnAfterRender();
-            Console.WriteLine("Inventory Catalog View OnAfterRender");
-                 
-        }
+    {
+        base.OnAfterRender();
+        Console.WriteLine("Inventory Catalog View OnAfterRender");
+
+    }
 }

@@ -1,8 +1,9 @@
 ﻿@page "/shoppingcart"
+@using BlazorMVVM.Client.Components
 @inherits ShoppingCartBase
 
 <h1>Shopping Cart</h1>
 
-<BlazorMVVM.Client.Components.InventoryCatalog ViewModel="@ViewModel.InventoryCatalogViewModel" />
+<InventoryCatalog ViewModel="@ViewModel.InventoryCatalogViewModel" AddSelectedItemToCart="@ViewModel.CheckInventoryAndAddItemToCart"  />
 
-<BlazorMVVM.Client.Components.CartContents ViewModel="@ViewModel" />
+<CartContents ViewModel="@ViewModel" />

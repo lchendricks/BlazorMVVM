@@ -17,16 +17,8 @@ namespace BlazorMVVM.Client.Views
             ViewModel.AddItemToCart(2);
             ViewModel.AddItemToCart(3);
             ViewModel.UpdateCart();
-
-            ViewModel.StateHasChangedDelegate = StateHasChanged;
+           
         }
-
-        private void DoNothing()
-        { }
-        //protected override void StateHasChanged()
-        //{
-
-        //}
 
         protected override void OnAfterRender()
         {
