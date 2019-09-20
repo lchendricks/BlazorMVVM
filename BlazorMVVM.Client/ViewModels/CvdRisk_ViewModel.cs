@@ -38,11 +38,11 @@ namespace BlazorMVVM.Client.ViewModels
     public class CvdRisk_ViewModel : ICvdRisk_ViewModel
     {
         private ICvdRisk_Model _cvdRisk_Model;
-        private string _gender;
+        private string _gender = "Male";
         private int _age;
         private int _totalCholesterol;
         private string _isSmoker;
-        private int _hdlCholesterol;
+        private int _hdlCholesterol = 100;
         private int _systolicPressure;
         private string _bpIsTreated;
         private string _riskPercentage;
@@ -107,7 +107,7 @@ namespace BlazorMVVM.Client.ViewModels
 
         public void SetNavButtons()
         {
-            Console.WriteLine("Set Nav Buttons");
+            Console.WriteLine($"Set Nav Buttons: {Step}");
             NextButtonDisabled = false;
             switch (Step)
             {
@@ -141,6 +141,7 @@ namespace BlazorMVVM.Client.ViewModels
                     break;
                 case 5:
                     PreviousButtonDisabled = false;
+                    Console.WriteLine($"_hdlCholesterol == {_hdlCholesterol}");
                     if (_hdlCholesterol == 0)
                     {
                         NextButtonDisabled = true;

@@ -11,18 +11,17 @@ namespace BlazorMVVM.Client.Views
         [Inject]
         public IShoppingCartViewModel ViewModel { get; set; }
 
-        protected override void OnInit()
+        protected override void OnInitialized()
         {
             ViewModel.AddItemToCart(1);
             ViewModel.AddItemToCart(2);
             ViewModel.AddItemToCart(3);
             ViewModel.UpdateCart();
-           
         }
 
-        protected override void OnAfterRender()
+        protected override void OnAfterRender(bool firstRender)
         {
-            base.OnAfterRender();
+            base.OnAfterRender(firstRender);
             Console.WriteLine("Shopping Cart View OnAfterRender");       
         }
 

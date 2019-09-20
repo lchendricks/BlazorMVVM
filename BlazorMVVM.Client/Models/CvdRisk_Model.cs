@@ -81,6 +81,7 @@ namespace BlazorMVVM.Client.Models
 
         public void SetHdlCholesterol(int hdl)
         {
+            Console.WriteLine($"SetHdlCholesterol {hdl}");
             _hdlCholesterol = hdl;
         }
 
