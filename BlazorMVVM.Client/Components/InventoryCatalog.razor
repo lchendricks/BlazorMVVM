@@ -1,6 +1,7 @@
 ﻿@using BlazorMVVM.Client.ViewModels
 
-    <button class="btn btn-primary" onclick="@ViewModel.AddItemsButtonClickDelegate.Invoke">Display/Hide Catalog</button>
+@*@onclick="@ViewModel.AddItemsButtonClickDelegate.Invoke"*@
+<button class="btn btn-primary">Display/Hide Catalog</button>
 
 @if (ViewModel.CatalogItems.Count > 0)
 {
@@ -15,7 +16,8 @@
         <tbody>
             @foreach (var item in ViewModel.CatalogItems)
             {
-                <tr onclick=@(() => ViewModel.SelectItem(item.Key))>
+                //onclick="@(() => ViewModel.SelectItem(item.Key);)"
+                <tr>
                     <td>@item.Value.Name</td>
                     <td>@item.Value.Quantity</td>
                     <td>@item.Value.Price.DisplayPrice()</td>
@@ -30,28 +32,35 @@
         <tbody>
             <tr>
                 <td>@ViewModel.SelectedItem.Value.Name</td>
-                <td><button class="btn bg-primary" onclick=@(() => AddSelectedItemToCart.InvokeAsync(ViewModel.SelectedItem.Key))>Add to Cart</button></td>
-                <td><button class="btn bg-primary" onclick="@ViewModel.ClickCancel">Cancel</button></td>
+                <td><button class="btn bg-primary" onclick="OnAddSelectedItemToCart" )>Add to Cart</button></td>
+                <td><button class="btn bg-primary" onclick="OnClickCancel">Cancel</button></td>
             </tr>
         </tbody>
     </table>
 }
 
-@functions {
+@code {
     [Parameter]
-    private IInventoryCatalog_ViewModel ViewModel { get; set; }
+    public IInventoryCatalog_ViewModel ViewModel { get; set; }
 
     [Parameter]
-    private EventCallback<int> AddSelectedItemToCart { get; set; }
+    public EventCallback<int> AddSelectedItemToCart { get; set; }
 
-    protected override void OnInit()
+    protected void OnAddSelectedItemToCart()
+    {
+        AddSelectedItemToCart.InvokeAsync(ViewModel.SelectedItem.Key);
+    }
+    protected void OnClickCancel()
+    {
+        ViewModel.ClickCancel();
+    }
+    protected override void OnInitialized()
     {
 
     }
-
-    protected override void OnAfterRender()
+    protected override void OnAfterRender(bool firstRender)
     {
-        base.OnAfterRender();
+        base.OnAfterRender(firstRender);
         Console.WriteLine("Inventory Catalog View OnAfterRender");
 
     }

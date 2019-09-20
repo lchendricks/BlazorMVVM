@@ -29,7 +29,7 @@
             </div>
             <div class="card-footer">
                 <button class="btn btn-primary btn-lg" disabled="@ViewModel.PreviousButtonDisabled">Previous Step</button>
-                <button class="btn btn-primary btn-lg" disabled="@ViewModel.NextButtonDisabled" onclick=@(() => ViewModel.GoToNextStep())>Next Step</button>
+                <button class="btn btn-primary btn-lg" disabled="@ViewModel.NextButtonDisabled" @onclick=@(() => ViewModel.GoToNextStep())>Next Step</button>
             </div>
         </div>
         break;
@@ -41,11 +41,11 @@
             <div class="card-body">
                 <h5 class="card-title">Please enter your age</h5>
                 <p class="card-text">Enter age in years between 20 and 79. Use 79 for any age above 79.</p>
-                <input type="number" bind="@ViewModel.Age" onblur=@(() => ViewModel.SetAge()) />
+                <input type="number" @bind="@ViewModel.Age" @onblur=@(() => ViewModel.SetAge()) />
             </div>
             <div class="card-footer">
-                <button class="btn btn-primary btn-lg" disabled="@ViewModel.PreviousButtonDisabled" onclick=@(() => ViewModel.GoToPreviousStep())>Previous Step</button>
-                <button class="btn btn-primary btn-lg" disabled="@ViewModel.NextButtonDisabled" onclick=@(() => ViewModel.GoToNextStep())>Next Step</button>
+                <button class="btn btn-primary btn-lg" disabled="@ViewModel.PreviousButtonDisabled" @onclick=@(() => ViewModel.GoToPreviousStep())>Previous Step</button>
+                <button class="btn btn-primary btn-lg" disabled="@ViewModel.NextButtonDisabled" @onclick=@(() => ViewModel.GoToNextStep())>Next Step</button>
             </div>
         </div>
         break;
@@ -57,11 +57,11 @@
             <div class="card-body">
                 <h5 class="card-title">Please enter your total cholesterol</h5>
                 <p class="card-text">Enter the value in mg/dL</p>
-                <input type="number" bind="@ViewModel.TotalCholesterol" onblur=@(() => ViewModel.SetTotalCholesterol()) />
+                <input type="number" @bind="@ViewModel.TotalCholesterol" @onblur=@(() => ViewModel.SetTotalCholesterol()) />
             </div>
             <div class="card-footer">
-                <button class="btn btn-primary btn-lg" disabled="@ViewModel.PreviousButtonDisabled" onclick=@(() => ViewModel.GoToPreviousStep())>Previous Step</button>
-                <button class="btn btn-primary btn-lg" disabled="@ViewModel.NextButtonDisabled" onclick=@(() => ViewModel.GoToNextStep())>Next Step</button>
+                <button class="btn btn-primary btn-lg" disabled="@ViewModel.PreviousButtonDisabled" @onclick=@(() => ViewModel.GoToPreviousStep())>Previous Step</button>
+                <button class="btn btn-primary btn-lg" disabled="@ViewModel.NextButtonDisabled" @onclick=@(() => ViewModel.GoToNextStep())>Next Step</button>
             </div>
         </div>
         break;
@@ -78,8 +78,8 @@
 
             </div>
             <div class="card-footer">
-                <button class="btn btn-primary btn-lg" disabled="@ViewModel.PreviousButtonDisabled" onclick=@(() => ViewModel.GoToPreviousStep())>Previous Step</button>
-                <button class="btn btn-primary btn-lg" disabled="@ViewModel.NextButtonDisabled" onclick=@(() => ViewModel.GoToNextStep())>Next Step</button>
+                <button class="btn btn-primary btn-lg" disabled="@ViewModel.PreviousButtonDisabled" @onclick=@(() => ViewModel.GoToPreviousStep())>Previous Step</button>
+                <button class="btn btn-primary btn-lg" disabled="@ViewModel.NextButtonDisabled" @onclick=@(() => ViewModel.GoToNextStep())>Next Step</button>
             </div>
         </div>
         break;
@@ -91,11 +91,11 @@
             <div class="card-body">
                 <h5 class="card-title">Please enter your HDL cholesterol</h5>
                 <p class="card-text">Enter the value in mg/dL</p>
-                <input type="number" bind="@ViewModel.HdlCholesterol" onblur=@(() => ViewModel.SetHdlCholesterol()) />
+                <input type="number" @bind="@ViewModel.HdlCholesterol" @onblur=@(() => ViewModel.SetHdlCholesterol()) />
             </div>
             <div class="card-footer">
-                <button class="btn btn-primary btn-lg" disabled="@ViewModel.PreviousButtonDisabled" onclick=@(() => ViewModel.GoToPreviousStep())>Previous Step</button>
-                <button class="btn btn-primary btn-lg" disabled="@ViewModel.NextButtonDisabled" onclick=@(() => ViewModel.GoToNextStep())>Next Step</button>
+                <button class="btn btn-primary btn-lg" disabled="@ViewModel.PreviousButtonDisabled" @onclick=@(async () => ViewModel.GoToPreviousStep())>Previous Step</button>
+                <button class="btn btn-primary btn-lg" disabled="@ViewModel.NextButtonDisabled" @onclick=@(async () => ViewModel.GoToNextStep())>Next Step</button>
             </div>
         </div>
         break;
@@ -107,11 +107,11 @@
             <div class="card-body">
                 <h5 class="card-title">Please enter your blood pressure</h5>
                 <p class="card-text">Enter your systolic pressure in mm Hg</p>
-                <input type="number" bind="@ViewModel.SystolicPressure" onblur=@(() => ViewModel.SetBloodPressure()) />
+                <input type="number" @bind="@ViewModel.SystolicPressure" @onblur=@(() => ViewModel.SetBloodPressure()) />
             </div>
             <div class="card-footer">
-                <button class="btn btn-primary btn-lg" disabled="@ViewModel.PreviousButtonDisabled" onclick=@(() => ViewModel.GoToPreviousStep())>Previous Step</button>
-                <button class="btn btn-primary btn-lg" disabled="@ViewModel.NextButtonDisabled" onclick=@(() => ViewModel.GoToNextStep())>Next Step</button>
+                <button class="btn btn-primary btn-lg" disabled="@ViewModel.PreviousButtonDisabled" @onclick=@(() => ViewModel.GoToPreviousStep())>Previous Step</button>
+                <button class="btn btn-primary btn-lg" disabled="@ViewModel.NextButtonDisabled" @onclick=@(() => ViewModel.GoToNextStep())>Next Step</button>
             </div>
         </div>
         break;
@@ -128,8 +128,8 @@
 
             </div>
             <div class="card-footer">
-                <button class="btn btn-primary btn-lg" disabled="@ViewModel.PreviousButtonDisabled" onclick=@(() => ViewModel.GoToPreviousStep())>Previous Step</button>
-                <button class="btn btn-primary btn-lg" disabled="@ViewModel.NextButtonDisabled" onclick=@(() => ViewModel.GoToNextStep())>Next Step</button>
+                <button class="btn btn-primary btn-lg" disabled="@ViewModel.PreviousButtonDisabled" @onclick=@(() => ViewModel.GoToPreviousStep())>Previous Step</button>
+                <button class="btn btn-primary btn-lg" disabled="@ViewModel.NextButtonDisabled" @onclick=@(() => ViewModel.GoToNextStep())>Next Step</button>
             </div>
         </div>
         break;
@@ -140,11 +140,11 @@
             </div>
             <div class="card-body">
                 <h5 class="card-title">Your 10 year risk for Cardiovascular Disease is:</h5>
-                <p class="card-text">@ViewModel.RiskPercentage</p>                
+                <p class="card-text">@ViewModel.RiskPercentage</p>
             </div>
             <div class="card-footer">
-                <button class="btn btn-primary btn-lg" disabled="@ViewModel.PreviousButtonDisabled" onclick=@(() => ViewModel.GoToPreviousStep())>Previous Step</button>
-                <button class="btn btn-primary btn-lg" disabled="@ViewModel.NextButtonDisabled" onclick=@(() => ViewModel.GoToNextStep())>Next Step</button>
+                <button class="btn btn-primary btn-lg" disabled="@ViewModel.PreviousButtonDisabled" @onclick=@(() => ViewModel.GoToPreviousStep())>Previous Step</button>
+                <button class="btn btn-primary btn-lg" disabled="@ViewModel.NextButtonDisabled" @onclick=@(() => ViewModel.GoToNextStep())>Next Step</button>
             </div>
         </div>
         break;

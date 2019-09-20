@@ -11,7 +11,7 @@
     <tbody>
         @foreach (var forecast in ViewModel.WeatherForecasts)
         {
-        <tr onclick="@(async () => await ViewModel.ToggleForecast(forecast.Date))">
+        <tr @onclick="async () => await ViewModel.ToggleForecast(forecast.Date)">
             <td>@forecast.Date.ToString("MM/dd/yyyy h:mm tt")</td>
             <td>@ViewModel.DisplayTemperature(@forecast.TemperatureC)</td>
             <td>@forecast.Summary</td>
@@ -20,7 +20,7 @@
     </tbody>
 </table>
 
-@functions {
+@code {
     [Parameter]
-    private IBasicForecastViewModel ViewModel { get; set; }
+    public IBasicForecastViewModel ViewModel { get; set; }
 }

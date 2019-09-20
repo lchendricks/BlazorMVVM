@@ -31,20 +31,20 @@
 }
 
 
-@functions {
+@code {
     [Parameter]
-    private IShoppingCartViewModel ViewModel { get; set; }
+    public IShoppingCartViewModel ViewModel { get; set; }
 
-    protected override void OnInit()
+    protected override void OnInitialized()
     {
         //base.OnInit();
         //ViewModel.PropertyChanged += (o, e) => StateHasChanged();
      
     }
 
-    protected override void OnAfterRender()
+    protected override void OnAfterRender(bool firstRender)
     {
-        base.OnAfterRender();
+        base.OnAfterRender(firstRender);
         Console.WriteLine("CartContents View OnAfterRender");       
     }
 }

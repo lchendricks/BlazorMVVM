@@ -4,8 +4,8 @@
 @inject IFetchDataViewModel fetchDataViewModel
 
 <h1>Weather forecast</h1>
-<button class="btn btn-primary" onclick=@fetchDataViewModel.ToggleTemperatureScale>Display @fetchDataViewModel.DisplayOtherTemperatureScaleLong</button>
-<button class="btn btn-primary" onclick=@(async () => await fetchDataViewModel.TogglePremiumMembership())>@fetchDataViewModel.DisplayPremiumToggleMessage</button>
+<button class="btn btn-primary" @onclick=fetchDataViewModel.ToggleTemperatureScale>Display @fetchDataViewModel.DisplayOtherTemperatureScaleLong</button>
+<button class="btn btn-primary" @onclick=@(() => fetchDataViewModel.TogglePremiumMembership())>@fetchDataViewModel.DisplayPremiumToggleMessage</button>
 <p>This component demonstrates fetching data from the server.</p>
 
 @if (fetchDataViewModel.BasicForecastViewModel.WeatherForecasts == null)
@@ -17,8 +17,8 @@ else
     <BasicForecast ViewModel="@fetchDataViewModel.BasicForecastViewModel" />
 }
 
-@functions {
-    protected override async Task OnInitAsync()
+@code {
+    protected override async Task OnInitializedAsync()
     {
         await fetchDataViewModel.RetrieveForecastsAsync();       
     }
